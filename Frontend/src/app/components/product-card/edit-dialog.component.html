@@ -1,0 +1,33 @@
+<div mat-dialog-content>
+  <p>Edit</p>
+
+  <mat-slide-toggle
+    [checked]="editproduct.Done"
+    (change)="changeDone($event)"
+  ></mat-slide-toggle>
+  <br />
+  <mat-form-field appearance="fill">
+    <mat-label></mat-label>
+    <textarea matInput [(ngModel)]="editproduct.Description"></textarea>
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <mat-label>Priority</mat-label>
+    <mat-select [(ngModel)]="editproduct.Priority">
+      <mat-option value="low"> low </mat-option>
+      <mat-option value="medium"> medium </mat-option
+      ><mat-option value="high"> high </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button
+    mat-button
+    [mat-dialog-close]="editproduct.Description"
+    cdkFocusInitial
+    (click)="send()"
+  >
+    Ok
+  </button>
+</div>

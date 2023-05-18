@@ -1,0 +1,38 @@
+<div class="btn">
+  <br />
+  <button
+    mat-raised-button
+    (click)="openAdminDialog()"
+    style="background-color: #e7d13e"
+  >
+    Admin
+  </button>
+  <mat-form-field>
+    <mat-label>Select Priority</mat-label>
+    <mat-select (selectionChange)="onPrioritySelected($event.value)">
+      <mat-option value="low"> low </mat-option>
+      <mat-option value="medium"> medium </mat-option>
+      <mat-option value="high"> high </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button (click)="order()" style="background-color: #e7d13e">
+    Order By Priority
+  </button>
+  <br />
+  <button
+    mat-raised-button
+    (click)="openDialog()"
+    style="background-color: #e7d13e"
+    *ngIf="isadmin"
+  >
+    Add Product
+  </button>
+</div>
+<div class="cards">
+  <app-product-card
+    *ngFor="let p of products"
+    [product]="p"
+    [isadmin]="isadmin"
+  ></app-product-card>
+</div>
+<div></div>

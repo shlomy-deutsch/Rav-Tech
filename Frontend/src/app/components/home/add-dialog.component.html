@@ -1,0 +1,27 @@
+<div mat-dialog-content>
+  <p>Add Mission</p>
+  <mat-form-field appearance="fill">
+    <mat-label></mat-label>
+    <textarea matInput [(ngModel)]="newproduct.Description"></textarea>
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <mat-label>Priority</mat-label>
+    <mat-select [(ngModel)]="newproduct.Priority">
+      <mat-option value="low"> low </mat-option>
+      <mat-option value="medium"> medium </mat-option
+      ><mat-option value="high"> high </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button
+    mat-button
+    [mat-dialog-close]="newproduct.Description"
+    cdkFocusInitial
+    (click)="send()"
+  >
+    Ok
+  </button>
+</div>
