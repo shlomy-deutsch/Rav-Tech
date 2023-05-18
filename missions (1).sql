@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: מאי 18, 2023 בזמן 09:10 AM
+-- Generation Time: מאי 18, 2023 בזמן 09:56 AM
 -- גרסת שרת: 10.4.20-MariaDB
 -- PHP Version: 8.0.9
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `misions`
+-- Database: `missions`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,13 @@ CREATE TABLE `admin` (
   `Admin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- הוצאת מידע עבור טבלה `admin`
+--
+
+INSERT INTO `admin` (`Username`, `Password`, `Admin`) VALUES
+('moshe', 123456, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +52,13 @@ CREATE TABLE `misions` (
   `Done` varchar(5) NOT NULL,
   `Priority` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- הוצאת מידע עבור טבלה `misions`
+--
+
+INSERT INTO `misions` (`ID`, `Description`, `Done`, `Priority`) VALUES
+(1, 'test', 'false', 'medium');
 
 --
 -- Indexes for dumped tables
@@ -64,7 +78,7 @@ ALTER TABLE `misions`
 -- AUTO_INCREMENT for table `misions`
 --
 ALTER TABLE `misions`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
