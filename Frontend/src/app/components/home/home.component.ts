@@ -1,16 +1,8 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  HostListener,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import ProductModel from '../../models/product.model';
 import { HttpClient } from '@angular/common/http';
 import { ChatService } from '../../../services/chat.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-
 import AuthModel from '../../models/auth.model';
 var admin: Boolean;
 var productsarr: ProductModel;
@@ -23,6 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public isadmin: Boolean = false;
   public chatService: ChatService = new ChatService();
   products: ProductModel[] | any;
+  public numberOfProducts: number = 0;
 
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
@@ -31,7 +24,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.chatService.socket.on('msg-from-server', (msg: any) => {
       this.onMessageReceived();
     });
-
     this.getProducts();
   }
 
@@ -83,7 +75,31 @@ export class HomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminDialog, {});
     dialogRef.afterClosed().subscribe((result) => {});
   }
-  isScrolling = 0;
+
+  @HostListener('window:scroll', ['$event'])
+  async onWindowScroll() {
+    if (
+      document.body.clientHeight + window.scrollY >=
+      document.body.scrollHeight
+    ) {
+      this.numberOfProducts = this.products.length;
+      try {
+        const response = await this.http
+          .get<ProductModel[]>(
+            'http://localhost:3000/api/appointment/' + this.numberOfProducts
+          )
+          .toPromise();
+        if (response) {
+          for (const obj of response) {
+            this.products.push(obj);
+          }
+        }
+        productsarr = this.products;
+      } catch (error) {
+        console.error('Error retrieving products', error);
+      }
+    }
+  }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 @Component({

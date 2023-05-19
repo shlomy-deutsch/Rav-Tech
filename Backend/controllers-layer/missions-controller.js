@@ -10,6 +10,15 @@ router.get("/", async (request, response) => {
     response.status(500).send(err.message);
   }
 });
+router.get("/:num", async (request, response) => {
+  try {
+    const num = +request.params.num
+    const products = await logic.getNumOfMissionsAsync(num);
+    response.json(products);
+  } catch (err) {
+    response.status(500).send(err.message);
+  }
+});
 
 router.post("/", async (request, response) => {
   try {

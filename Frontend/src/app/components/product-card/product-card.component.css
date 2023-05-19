@@ -1,6 +1,11 @@
 .example-card {
-    float: left;
-    margin: 30px;
-    height: 270px;
-    background: none;
-  }
+  float: left;
+  margin: 30px;
+  height: 270px;
+  background: none;
+  max-width: 25%;
+  word-wrap: break-word;
+}
+.mat-mdc-card-header {
+  display: block !important;
+}

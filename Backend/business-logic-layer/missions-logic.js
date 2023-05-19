@@ -1,7 +1,12 @@
 const dal = require("../data-access-layer/dal-sql");
 
 async function getAllMissionsAsync() {
-  const sql = "SELECT `ID`, `Description`, `Done`, `Priority` FROM `misions`";
+  const sql = "SELECT `ID`, `Description`, `Done`, `Priority` FROM `misions` LIMIT 4";
+  const products = await dal.executeAsync(sql);
+  return products;
+}
+async function getNumOfMissionsAsync(num){
+  const sql = `SELECT * FROM misions LIMIT 3 OFFSET ${num}`;
   const products = await dal.executeAsync(sql);
   return products;
 }
@@ -28,6 +33,7 @@ async function updateMissionAsync(product) {
 
 module.exports = {
   getAllMissionsAsync,
+  getNumOfMissionsAsync,
   addMissionAsync,
   updateMissionAsync,
   deleteMissionAsync,
