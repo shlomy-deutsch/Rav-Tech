@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 6.0.0-dev+20230518.d362f79fa7
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: מאי 18, 2023 בזמן 09:56 AM
--- גרסת שרת: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- Host: localhost
+-- Generation Time: May 19, 2023 בזמן 10:43 AM
+-- גרסת שרת: 10.4.24-MariaDB
+-- PHP Version: 8.1.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,7 +58,16 @@ CREATE TABLE `misions` (
 --
 
 INSERT INTO `misions` (`ID`, `Description`, `Done`, `Priority`) VALUES
-(1, 'test', 'false', 'medium');
+(1, 'gkjhsgkjhkshgkhsgkjhsgksdjhgkjhskjhgkdכלחיכלחיעלחי מלחלחילח נחמנחינןחינלחי ינלחינלחינ ךלחיךלחי ךלחמךלחיח  ', 'true', 'medium'),
+(2, 'jhsihdhagskjashdgkasdjhfagksdjfhasdkjfhasgdkfajdhgfkJDFHgksjdfhGSKDJFSGKDFAJFDGKJFHKGJSH', 'false', 'medium'),
+(3, 'sakjhgwkejhfGKJSDHFGAKSEHDFskEHFGAKSJDHFAKSJHDFGkjshdFKzxDVBKjDBGLZKFGHLXSKJFGDHLKJH', 'true', 'medium'),
+(4, 'mnvmnbvjhvjhgmgjhvjhgfkghcfhgfjkhgchgfkhgchgfcjhgfjhgfhgfjhf', 'false', 'low'),
+(5, 'sekjhfdgksjfhbgkajdhcdbdajkchkajhdbtkjhskjhdbkjhdskjhbk', 'false', 'high'),
+(6, 'jhewiuehrgksjchgkjahdckjehgkacjehkejhbkqjchbkjqrh', 'false', 'low'),
+(7, 'zsopidufcpaoriucfnapreoifgcuanreloicgfuemrlicguserncliauedcfhnladkufcghnaldifcuhpeb', 'true', 'medium'),
+(8, 'kjuvliugclkuydkiuyflkuygvkuyg lkuigyckjhbliugckjygclkjhgc,djhgdc', 'false', 'high'),
+(9, ',kuhvlkuylkuyfkuhfjgcjmhvb mbhjgkjhglkuydmjhgvkfuhgv ,jygdc', 'true', 'medium'),
+(10, ',kuhvlkuylkuyfkuhfjgcjmhvb mbhjgkjhglkuydmjhgvkfuhgv ,jygdc', 'false', 'high');
 
 --
 -- Indexes for dumped tables
@@ -78,7 +87,7 @@ ALTER TABLE `misions`
 -- AUTO_INCREMENT for table `misions`
 --
 ALTER TABLE `misions`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
