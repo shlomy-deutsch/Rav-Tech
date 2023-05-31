@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { ChatService } from '../../../services/chat.service';
 import ProductModel from '../../models/product.model';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ProductsService } from '../../../services/products.service';
 
 var editproduct = new ProductModel();
 
@@ -13,8 +13,11 @@ var editproduct = new ProductModel();
   styleUrls: ['./product-card.component.css'],
 })
 export class ProductCardComponent implements OnInit {
-  constructor(private http: HttpClient, public dialog: MatDialog) {}
-  public chatService: ChatService = new ChatService();
+  constructor(
+    public dialog: MatDialog,
+    private chatService: ChatService,
+    private myProductsService: ProductsService
+  ) {}
   public id: number | any;
   public count: number = 0;
   public cart: [] | any;
@@ -33,9 +36,7 @@ export class ProductCardComponent implements OnInit {
     const dialogRef = this.dialog.open(EditDialog, {});
   }
   public async deleteProduct(id: number) {
-    const deleteproduct = await this.http
-      .delete<ProductModel>('http://localhost:3000/api/appointment/' + id)
-      .toPromise();
+    await this.myProductsService.deleteProduct(id)
     this.chatService.send({ message: 'Hello World!' });
   }
   edit(product: ProductModel) {
@@ -48,7 +49,7 @@ export class ProductCardComponent implements OnInit {
   }
 
   preventSlide(event: MatSlideToggleChange, done: boolean): void {
-    event.source.checked = done; // Revert the slide toggle state
+    event.source.checked = done;
   }
 }
 
@@ -58,9 +59,9 @@ export class ProductCardComponent implements OnInit {
 })
 export class EditDialog {
   constructor(
-    private http: HttpClient,
     public dialogRef: MatDialogRef<EditDialog>,
-    public chatService: ChatService = new ChatService()
+    public chatService: ChatService,
+    private myProductsService: ProductsService
   ) {}
 
   public editproduct: ProductModel | any;
@@ -75,19 +76,8 @@ export class EditDialog {
     this.editproduct.Done = event.checked;
   }
   public async send() {
-    const myFormData = ProductModel.convertToFormData(this.editproduct);
-
-    try {
-      await this.http
-        .put<ProductModel[]>(
-          'http://localhost:3000/api/appointment/' + this.editproduct.ID,
-          myFormData
-        )
-        .toPromise();
+    await this.myProductsService.updateProduct(this.editproduct)
       this.chatService.send({ message: 'Hello World!' });
-    } catch (err: any) {
-      alert('שגיאה בקוד או בשם משתמש');
-    }
   }
   onNoClick(): void {
     this.dialogRef.close();

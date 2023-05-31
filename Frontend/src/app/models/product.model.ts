@@ -1,8 +1,10 @@
 class ProductModel {
   public ID: number = 0;
-  public Description: string = '';
+  public Description: string = ''
   public Done: string = ''
-  public Priority: string = ''
+  public Priority: string = '';
+
+  
   public static convertToFormData(product: ProductModel): FormData {
     
     const myFormData = new FormData();

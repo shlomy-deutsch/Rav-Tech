@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { ChatService } from '../../../services/chat.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import AuthModel from '../../models/auth.model';
+import { ProductsService } from '../../../services/products.service';
+import { AuthService } from '../../../services/auth.service';
+
 var admin: Boolean;
 var productsarr: ProductModel;
 @Component({
@@ -13,11 +16,14 @@ var productsarr: ProductModel;
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public isadmin: Boolean = false;
-  public chatService: ChatService = new ChatService();
   products: ProductModel[] | any;
   public numberOfProducts: number = 0;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private chatService: ChatService,
+    private myProductsService: ProductsService
+  ) {}
 
   ngOnInit(): void {
     this.chatService.connect();
@@ -54,10 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private async getProducts() {
     try {
-      const response = await this.http
-        .get<ProductModel[]>('http://localhost:3000/api/appointment')
-        .toPromise();
-      this.products = response;
+      this.products = await this.myProductsService.getAllProducts();
       productsarr = this.products;
     } catch (error) {
       console.error('Error retrieving products', error);
@@ -83,21 +86,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       document.body.scrollHeight
     ) {
       this.numberOfProducts = this.products.length;
-      try {
-        const response = await this.http
-          .get<ProductModel[]>(
-            'http://localhost:3000/api/appointment/' + this.numberOfProducts
-          )
-          .toPromise();
+      const response = await this.myProductsService.getNumProducts(this.numberOfProducts)
         if (response) {
           for (const obj of response) {
             this.products.push(obj);
           }
         }
         productsarr = this.products;
-      } catch (error) {
-        console.error('Error retrieving products', error);
-      }
     }
   }
 }
@@ -107,12 +102,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   templateUrl: 'add-dialog.component.html',
 })
 export class AddDialog {
-  public chatService: ChatService = new ChatService();
   public newproduct = new ProductModel();
 
   constructor(
     public dialogRef: MatDialogRef<AddDialog>,
-    private http: HttpClient
+    private chatService: ChatService,
+    private myProductsService: ProductsService
   ) {}
 
   ngOnInit(): void {
@@ -121,19 +116,8 @@ export class AddDialog {
   }
 
   public async send() {
-    const myFormData = ProductModel.convertToFormData(this.newproduct);
-
-    try {
-      await this.http
-        .post<ProductModel[]>(
-          'http://localhost:3000/api/appointment',
-          myFormData
-        )
-        .toPromise();
-      this.chatService.send({ message: 'Hello World!' });
-    } catch (err: any) {
-      alert('שגיאה בקוד או בשם משתמש');
-    }
+    this.myProductsService.addProduct(this.newproduct);
+    this.chatService.send({ message: 'Hello World!' });
   }
   onNoClick(): void {
     this.dialogRef.close();
@@ -145,13 +129,14 @@ export class AddDialog {
   templateUrl: 'admin-dialog.component.html',
 })
 export class AdminDialog {
-  public chatService: ChatService = new ChatService();
   product = new AuthModel();
   auth: AuthModel | any;
 
   constructor(
     public dialogRef: MatDialogRef<AdminDialog>,
-    private http: HttpClient
+    private http: HttpClient,
+    private chatService: ChatService,
+    private myAuthService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -160,9 +145,7 @@ export class AdminDialog {
   }
   public async send() {
     try {
-      this.auth = await this.http
-        .post<AuthModel[]>('http://localhost:3000/api/auth', this.product)
-        .toPromise();
+      this.auth = await this.myAuthService.postProduct(this.product)
       if (this.auth.admin === 1 || this.auth.admin === true) {
         admin = true;
         this.chatService.send({ message: 'Hello World!' });
